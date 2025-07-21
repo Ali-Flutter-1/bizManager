@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:management/AuthScreen/login_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/adapters.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,13 +15,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 30), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+    Future.delayed(Duration(seconds: 2), () {
+      final authBox = Hive.box('authBox');
+      final isLoggedIn = authBox.get('isLoggedIn', defaultValue: false);
+
+      if (isLoggedIn) {
+        context.go('/dashboard');
+      } else {
+        context.go('/login');
+      }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(height: 1),
 
             const Text(
-              "Smartly manage your business\nwith efficiency and clarity.",
+              "Smartly manage your business\nwith efficiency and clarity",
               style: TextStyle(
                 fontFamily: 'Font1',
                 fontWeight: FontWeight.w400,

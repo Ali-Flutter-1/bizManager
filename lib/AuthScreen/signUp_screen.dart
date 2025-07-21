@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import '../CustomWidgets/customButton.dart';
 import '../CustomWidgets/customTextfield.dart';
@@ -199,12 +201,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   isError: true);
                               return;
                             }
+                            // Save signup info (if using Hive for user)
+                            // final userBox = Hive.box<>('userBox');
+                            // userBox.add(User(name: username, email: email, password: password));
 
+                            final authBox = Hive.box('authBox');
+                            authBox.put('isLoggedIn', true);
                             showCustomToast(context, 'Register Successfully');
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => BottomNavBar()),
-                            // );
+                            context.go('/dashboard');
                           },
                         ),
 
@@ -221,11 +225,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen()));
+                                    context.go('/login');
                                   },
                                   child: Text(
                                     'Log In',
@@ -248,4 +248,6 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
+
+
 }

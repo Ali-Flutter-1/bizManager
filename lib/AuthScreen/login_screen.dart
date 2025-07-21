@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:management/AuthScreen/signUp_screen.dart';
 
 import '../CustomWidgets/customButton.dart';
@@ -152,8 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             showCustomToast(context, 'Please Enter all Fields',
                                 isError: true);
                           } else {
+                            final authBox = Hive.box('authBox');
+                            authBox.put('isLoggedIn', true);
+
                             showCustomToast(context, 'Login Successfully');
-                            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => BottomNavBar()));
+                            context.go('/dashboard');
                           }
                         },
                       ),
@@ -168,11 +173,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             const Text('Don’t have an account? '),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignupScreen()),
-                                );
+                                context.go('/signup');
+
                               },
                               child: const Text(
                                 'Join',

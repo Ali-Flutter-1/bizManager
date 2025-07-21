@@ -31,4 +31,25 @@ class ProductProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+
+  void deleteProduct(Product product) {
+    product.delete();
+    notifyListeners();
+  }
+
+  void increaseQuantity(Product product) {
+    product.quantity += 1;
+    product.save();
+    notifyListeners();
+  }
+
+  void decreaseQuantity(Product product) {
+    if (product.quantity > 1) {
+      product.quantity -= 1;
+      product.save(); // update Hive
+      notifyListeners();
+    }
+  }
+
 }

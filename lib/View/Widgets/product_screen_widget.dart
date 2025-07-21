@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:management/CustomWidgets/customToast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../CustomWidgets/customButton.dart';
 import '../../CustomWidgets/customTextfield.dart';
 import '../../Model/product_item.dart';
@@ -47,33 +45,30 @@ class _AddProductBottomSheetState extends State<AddProductBottomSheet> {
             Text("Price",style: TextStyle(
                 fontFamily: 'Font1',fontSize: 18,fontWeight: FontWeight.w500
             ),),
-            CustomTextField(controller: priceController, hintText: 'Enter Price', keyboardType: TextInputType.number,width: MediaQuery.of(context).size.width),
+            CustomTextField(controller: priceController, hintText: 'Enter Price of 1 product', keyboardType: TextInputType.number,width: MediaQuery.of(context).size.width),
             Text("Quantity",style: TextStyle(
                 fontFamily: 'Font1',fontSize: 18,fontWeight: FontWeight.w500
             ),),
             CustomTextField(controller: quantityController, hintText: 'Enter Quantity', keyboardType: TextInputType.number,width: MediaQuery.of(context).size.width),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomButton(
-                    width: 150,
-                    text: "Camera",
-                    backgroundColor: Color(0xFFCCCCCC),
-                    textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
-                    onPressed: () => _pickImage(ImageSource.camera),
-                  ),
-                  const SizedBox(width: 10),
-                  CustomButton(
-                    width: 150,
-                    text: "Gallery",
-                    backgroundColor: Color(0xFFCCCCCC),
-                    textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
-                    onPressed: () => _pickImage(ImageSource.gallery),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomButton(
+                  width: 170,
+                  text: "Camera",
+                  backgroundColor: Color(0xFFCCCCCC),
+                  textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                  onPressed: () => _pickImage(ImageSource.camera),
+                ),
+                const SizedBox(width: 10),
+                CustomButton(
+                  width: 170,
+                  text: "Gallery",
+                  backgroundColor: Color(0xFFCCCCCC),
+                  textStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                  onPressed: () => _pickImage(ImageSource.gallery),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             CustomButton(
