@@ -3,6 +3,8 @@ import 'package:hive/hive.dart';
 import '../Model/Transaction/transaction.dart';
 import 'dart:core';
 
+import '../Model/product_item.dart';
+
 
 
 
@@ -17,10 +19,15 @@ class TransactionProvider with ChangeNotifier {
   List<Transaction> getSellTransactions() =>
       _transactionBox.values.where((t) => t.type == "Sell").toList();
 
+
   void addTransaction(Transaction transaction) {
+
     _transactionBox.add(transaction);
-    notifyListeners();
+    notifyListeners(); 
+
   }
+
+
 
   void deleteTransaction(Transaction transaction) {
     transaction.delete();

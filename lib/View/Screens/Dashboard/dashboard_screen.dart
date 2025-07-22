@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,12 @@ class DashboardScreen extends StatelessWidget {
               fontFamily: 'Font',
               color: Colors.white),
           textAlign: TextAlign.center,
-        ),
+        ),   leading: InkWell(
+        onTap: () {
+          context.goNamed('allTransactions');
+        },
+        child: const Icon(Icons.picture_as_pdf, size: 30, color: Colors.white),
+      ),
       ),
       body: products.isEmpty
           ? Center(
@@ -148,17 +153,13 @@ class DashboardScreen extends StatelessWidget {
                children: [
                  // Image - no padding, fixed size
                  GestureDetector(
-                   onTap: (){
-                     context.goNamed(
-                       'addTransaction',
-                       pathParameters: {
-                         'productName': product.name,
-                       },
-                       extra: product.imagePath,
-                     );
+                 onTap: () {
+           context.goNamed(
+           'addTransaction', extra: product // pass the whole product
+           );
+           }
 
-                   },
-                   child: ClipRRect(
+               ,child: ClipRRect(
                      borderRadius: const BorderRadius.only(
                        topLeft: Radius.circular(10),
                        bottomLeft: Radius.circular(10),

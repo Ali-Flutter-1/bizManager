@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import '../CustomWidgets/customToast.dart';
 import '../Model/product_item.dart';
 
 class ProductProvider with ChangeNotifier {
@@ -52,4 +53,42 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
+  void updateProductAfterTransaction(Product product, int quantity,
+      double amount, String type, BuildContext context) {
+    final key = product.key;
+
+    final existingProduct = _productBox.get(key);
+    if (existingProduct != null) {
+      final oldQuantity = existingProduct.quantity;
+      final oldPrice = existingProduct.price;
+
+      if (type == 'Buy') {
+        final newTotalQuantity = oldQuantity + quantity;
+        final newPrice = amount / quantity;
+
+        // Calculate weighted average and round to 2 decimals
+        final updatedPrice = ((oldQuantity * oldPrice) +
+            (quantity * newPrice)) / newTotalQuantity;
+        final roundedPrice = double.parse(updatedPrice.toStringAsFixed(2));
+
+        existingProduct.quantity = newTotalQuantity;
+        existingProduct.price = roundedPrice;
+      } else if (type == 'Sell') {
+        if (oldQuantity >= quantity) {
+          existingProduct.quantity = oldQuantity - quantity;
+          // Do not change price on Sell
+        } else {
+          showCustomToast(context,
+              'Not enough stock to sell. Available: $oldQuantity, Requested: $quantity',
+              isError: true);
+          return;
+        }
+      }
+
+      existingProduct.save();
+      notifyListeners();
+    } else {
+      debugPrint(" Product not found in Hive box.");
+    }
+  }
 }
